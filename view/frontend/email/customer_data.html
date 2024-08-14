@@ -1,0 +1,14 @@
+<!--@subject {{trans "New customer registration on %store_name" store_name=$store_name}} @-->
+<!--@vars {
+"var first_name":"Customer First Name",
+"var last_name":"Customer Last Name",
+"var email":"Customer E-mail"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+{{trans "A new customer was registered on %store_name." store_name=$store_name}}<br/><br/>
+<strong>{{trans "Firstname"}}:</strong> {{var first_name}}<br/>
+<strong>{{trans "Lastname"}}:</strong> {{var last_name}}<br/>
+<strong>{{trans "Email"}}:</strong> {{var email}}
+
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Atwix\Customer\Model\CustomerData\VirtualDebug" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/customer_data.log</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Atwix\Customer\Model\CustomerData\VirtualLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Atwix\Customer\Model\CustomerData\VirtualDebug</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Atwix\Customer\Model\CustomerData\Email\Sender">
+        <arguments>
+            <argument name="logger" xsi:type="object">Atwix\Customer\Model\CustomerData\VirtualLogger</argument>
+        </arguments>
+    </type>
+    <type name="Atwix\Customer\Plugin\AccountCreationSendEmailPlugin">
+        <arguments>
+            <argument name="logger" xsi:type="object">Atwix\Customer\Model\CustomerData\VirtualLogger</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Api\AccountManagementInterface">
+        <plugin name="account-creation-firstname-normalizer"
+                type="Atwix\Customer\Plugin\AccountCreationFirstnameNormalizerPlugin"/>
+        <plugin name="account-creation-send-email"
+                type="Atwix\Customer\Plugin\AccountCreationSendEmailPlugin"/>
+    </type>
+</config>
